@@ -1,0 +1,115 @@
+#+TITLE: Emacs Lesson 1
+#+AUTHOR: Arne Brasseur
+#+STARTUP: showall
+
+* Keybindings Cheatsheet
+
+  |            | Getting out                                            |                                  |
+  |------------+--------------------------------------------------------+----------------------------------|
+  | C-x C-c    | Exit emacs                                             | save-buffers-kill-terminal       |
+  | C-g        | Cancel running or partially typed command              | keyboard-quit                    |
+  | q          | Close window (in read only buffers)                    | quit-window                      |
+  |------------+--------------------------------------------------------+----------------------------------|
+  |            | Working with files                                     |                                  |
+  |------------+--------------------------------------------------------+----------------------------------|
+  | C-x C-f    | find (open) file                                       | find-file                        |
+  | C-x k      | kill (close) buffer                                    | kill-buffer                      |
+  | C-x C-s    | Save                                                   | save-buffer                      |
+  | C-x s      | Save All                                               | save-some-buffers                |
+  |------------+--------------------------------------------------------+----------------------------------|
+  |            | Working with windows                                   |                                  |
+  |------------+--------------------------------------------------------+----------------------------------|
+  | C-x 0      | Minimize window                                        | delete-window                    |
+  | C-x 1      | Maximize window                                        | delete-other-window              |
+  | C-x 2      | Split window horizontally                              | split-window-below               |
+  | C-x 3      | Split window vertically                                |                                  |
+  | C-x o      | Go to other window                                     | other-window                     |
+  | C-x b      | Switch to specific buffer                              | ido-switch-buffer                |
+  | C-x C-b    | List all buffers                                       | list-buffers                     |
+  | S-<arrows> | Move around multiple windows                           |                                  |
+  |------------+--------------------------------------------------------+----------------------------------|
+  |            | Getting help                                           |                                  |
+  |------------+--------------------------------------------------------+----------------------------------|
+  | C-h k      | Describe key                                           | describe-key                     |
+  | C-h f      | Describe function/command                              | describe-function                |
+  | C-h t      | Open tutorial                                          | help-with-tutorial               |
+  | C-h K      | Show manual for key command                            | Info-goto-emacs-key-command-node |
+  | C-h m      | Describe current major and minor modes                 |                                  |
+  |------------+--------------------------------------------------------+----------------------------------|
+  |            | Copy paste                                             |                                  |
+  |------------+--------------------------------------------------------+----------------------------------|
+  | C-SPC      | "start selecting text"                                 | set-mark-command                 |
+  | C-w        | "Cut"                                                  | kill-region                      |
+  | M-w        | "Copy"                                                 | kill-ring-save                   |
+  | C-y        | "Paste" (yank)                                         | yank                             |
+  |            | "Paste previous ones" (cycle)                          | yank-pop                         |
+  | C-k        | "Cut till end of line" (repeat to kill mutliple lines) | kill-line                        |
+  |------------+--------------------------------------------------------+----------------------------------|
+  |            | Working with Lisps                                     |                                  |
+  |------------+--------------------------------------------------------+----------------------------------|
+  | C-x C-e    | Evaluate previous expression                           | eval-last-sexp                   |
+  | C-M-x      | Evaluate outer expression                              |                                  |
+  |------------+--------------------------------------------------------+----------------------------------|
+  |            | Clojure                                                |                                  |
+  |------------+--------------------------------------------------------+----------------------------------|
+  | C-c M-j    | Start a REPL in the current project                    | cider-jack-in                    |
+  | C-c M-n    | Switch to current namespace                            | cider-repl-set-ns                |
+  | C-c M-c    | Connect to a REPL already running in a terminal        | cider-connect                    |
+  |            | Stop the REPL                                          | cider-quit                       |
+
+* Theory
+** Emacs
+*** Function, Commands, Key bindings
+
+
+    Emacs is essentially a virtual machine that runs Lisp code. The editor functionality is written in Lisp,
+    and other "apps" can be created that run on the Emacs platform. (Try =M-x tetris= or =M-x doctor=). This
+    is why Emacs is praised for its extensibility, you can program the editor itself from within the editor.
+
+    To do so you define functions. Functions that are meant to be executed by the user are called commands,
+    they have to have =(interaction)= as the first expression within the function body.
+
+    You can try this in the *scratch* buffer that Emacs starts with.
+
+    #+BEGIN_SRC emacs-lisp
+      (defun go-down-five-lines ()
+             (interactive)
+             (forward-line 5))
+    #+END_SRC
+
+    Put your cursor after the last closing parantheses and type =C-x C-e=. Now you've executed the function
+    definition, meaning the function (command) is now defined. You can execute it with =M-x go-down-five-lines=.
+
+    To be more useful we can bind it to a key.
+
+    #+BEGIN_SRC emacs-lisp
+      (global-set-key (kbd "<f9>") 'go-down-five-lines)
+    #+END_SRC
+
+    Is this case we set a global key binding, so we can use the key to invoke the command from anywhere in Emacs.
+    Some bindings are specific to a certain context, some commands might only be active when editing Lisp files,
+    or Ruby files, or when viewing the contents of directories.
+
+*** Help
+
+    Emacs has various help systems built-in, you should be able to learn everything about Emacs from within
+    Emacs. All these help commands are bound to key combinations starting with =C-h=, for example, =C-h f= will
+    prompt for a function. You can find out what it does, and what key, if any, it is bound to. Other notable
+    help commands are
+
+    | C-h ? | List all help commands                | help-for-help                    |
+    | C-h k | Describe key                          | describe-key                     |
+    | C-h K | Show manual for key                   | Info-goto-emacs-key-command-node |
+    | C-h i | Open the Emacs manual                 | info                             |
+    | C-h t | Open the (pretty old school) tutorial | help-with-tutorial               |
+
+    Exercises
+
+    - What does the command =zap-to-char= do?
+    - What key is it bound to?
+    - Try using it
+    - What command is bound to the key =M-SPC=? (meta-space)
+    - What does it do?
+    - Jump to its description in the manual.
+    - Try using it
+    - In the cheat sheet at the top some keybindings or command names are missing, look them and fill them in
