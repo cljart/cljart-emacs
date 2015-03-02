@@ -53,6 +53,7 @@
   |            | Clojure                                                |                                  |
   |------------+--------------------------------------------------------+----------------------------------|
   | C-c M-j    | Start a REPL in the current project                    | cider-jack-in                    |
+  | C-c C-z    | Switch to the REPL buffer                              |                                  |
   | C-c M-n    | Switch to current namespace                            | cider-repl-set-ns                |
   | C-c M-c    | Connect to a REPL already running in a terminal        | cider-connect                    |
   |            | Stop the REPL                                          | cider-quit                       |
